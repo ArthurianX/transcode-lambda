@@ -16,10 +16,10 @@ run `./create-aws-lambda` by specifying the needed parameters, below you can fin
 
 ```
 ./create-aws-lambda \
-  --region us-east-1 \
-  --lambda Timelapse \
-  --role arn:aws:iam::XXXXXXXXXXX:role/lambda_name \
-  --ffmpeg arn:aws:lambda:us-east-1:XXXXXXXXXXX:layer:ffmpeg:1
+  --region eu-central-1 \
+  --lambda KindMediaTranscoder \
+  --role arn:aws:iam::523132001812:role/transcoding-lambda-execution
+  --ffmpeg arn:aws:lambda:eu-central-1:523132001812:layer:ffmpeg:1
 ```
 
 ### 4. update the lambda with the code
@@ -28,8 +28,8 @@ specify the region and the lambda name as above and run:
 
 ```
 ./deploy-aws-lambda \
-  --region us-east-1 \
-  --lambda Timelapse
+  --region eu-central-1 \
+  --lambda KindMediaTranscoder
 ```
 
 # usage
