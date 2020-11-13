@@ -1,0 +1,24 @@
+{
+  "name": "transcode-lambda",
+  "version": "1.0.0",
+  "description": "transcode with AWS Lambda and S3",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap index.test.js",
+    "delete-lambda": "./delete-aws-lamdba",
+    "create-lambda": "./create-aws-lamdba",
+    "deploy-lambda": "./make-aws-lambda-zip && ./deploy-aws-lambda",
+    "launch-lambda": "./launch-aws-lambda"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.518.0",
+    "fluent-ffmpeg": "^2.1.2"
+  },
+  "devDependencies": {
+    "sinon": "^7.4.1",
+    "tap": "^14.6.1"
+  }
+}
