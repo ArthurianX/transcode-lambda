@@ -7,6 +7,15 @@ const fluentffmpeg = require('fluent-ffmpeg')
 const AWS = require('aws-sdk')
 const S3 = new AWS.S3()
 
+const convertAnyFileExtensionToMp4 = (name) => {
+    let mp4Name = name.split('.')
+    mp4Name.splice(mp4Name.length - 1, 1);
+    mp4Name.push('mp4')
+    mp4Name.join('.')
+
+    return mp4Name;
+}
+
 function fetchUploadedVideo({bucket, name} = {}, {listObjects = promisify(S3.listObjects).bind(S3), getObject = promisify(S3.getObject).bind(S3), writeFile = promisify(fs.writeFile).bind(fs)} = {}) {
     const params = { Bucket: bucket, Key: name };
     return S3.getObject(params).promise().then((gotFile) => {
@@ -29,7 +38,7 @@ function transcodeVideo({name} = {}, {ffmpeg = fluentffmpeg} = {}) {
                 console.log('Processing finished !');
                 resolve()
             })
-            .save(`/tmp/TRANSCODED-${name}`, {end: true})
+            .save(`/tmp/${convertAnyFileExtensionToMp4(name)}`, {end: true})
     })
 }
 
@@ -44,7 +53,9 @@ exports.handler = (event, context, cb) => {
     const destBucket = 'kind-media-transcoding-output';
     // Name needs to be escaped before file upload, .replace(/\+/g, " ")
     let srcKey;
+
     if (event.Records == undefined) {
+        // Demo mode, test lambda local
         srcKey = 'Depoimentos.mp4';
     } else {
         srcKey = decodeURIComponent(event.Records[0].s3.object.key);
@@ -53,7 +64,7 @@ exports.handler = (event, context, cb) => {
 
     fetchUploadedVideo({bucket: srcBucket, name: srcKey})
         .then(() => transcodeVideo({name: srcKey}))
-        .then(() => saveTranscodedFileToS3({bucket: destBucket, name: `TRANSCODED-${srcKey}`}))
-        .then((data) => cb(null, {success: true, data, bucket: destBucket, name: srcKey}))
+        .then(() => saveTranscodedFileToS3({bucket: destBucket, name: `${convertAnyFileExtensionToMp4(srcKey)}`}))
+        .then((data) => cb(null, {success: true, data, bucket: destBucket, name: convertAnyFileExtensionToMp4(srcKey)}))
         .catch(err => cb(err))
 }
