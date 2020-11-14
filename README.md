@@ -4,9 +4,9 @@
 
 ### 1. Deploy the [ffmpeg-lambda-layer](https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:145266761615:applications~ffmpeg-lambda-layer) on your Lambda
 
-### 2. Create an S3 bucket
+### 2. Create two S3 buckets, one for input, one for output
 
-name it, for example, "garden-snapshots" **in the same region as the ffmpeg-lambda-layer**
+They must be **in the same region as the ffmpeg-lambda-layer**
 
 ### 3. Create timelapse lambda
 
@@ -32,22 +32,8 @@ specify the region and the lambda name as above and run:
   --lambda KindMediaTranscoder
 ```
 
-# usage
+# running the code locally with aws-cli installed and configured
+`nodemon` or run with debug `index.js`
 
-`npm install` and take a look at `launch-lambda-example.js`:
-
-```js
-#!/usr/bin/env node
-
-const AWS = require('aws-sdk')
-
-const region = 'us-east-1'
-
-const apiVersion = 'latest'
-const lambda = new AWS.Lambda({ apiVersion, region })
-const invokeParams = { FunctionName: 'Timelapse' }
-
-lambda.invoke(invokeParams, (err, data) => {
-  console.log(err, data)
-})
-```
+# testing the actual lambda function
+`npm install` and take a look at `launch-lambda.js`, which tries to emulate a bucket create event
