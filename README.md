@@ -1,4 +1,4 @@
-# timelapse-lambda
+# transcode-lambda
 
 ## installation
 
