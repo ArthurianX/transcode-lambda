@@ -11,9 +11,8 @@ const convertAnyFileExtensionToMp4 = (name) => {
     let mp4Name = name.split('.')
     mp4Name.splice(mp4Name.length - 1, 1);
     mp4Name.push('mp4')
-    mp4Name.join('.')
 
-    return mp4Name;
+    return mp4Name.join('.');
 }
 
 function fetchUploadedVideo({bucket, name} = {}, {listObjects = promisify(S3.listObjects).bind(S3), getObject = promisify(S3.getObject).bind(S3), writeFile = promisify(fs.writeFile).bind(fs)} = {}) {
