@@ -8,7 +8,7 @@
 
 They must be **in the same region as the ffmpeg-lambda-layer**
 
-### 3. Create timelapse lambda
+### 3. Create transcoding lambda
 
 run `./create-aws-lambda` by specifying the needed parameters, below you can find an example.
 
